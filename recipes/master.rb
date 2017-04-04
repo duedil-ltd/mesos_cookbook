@@ -50,6 +50,8 @@ if node['mesos']['zookeeper_exhibitor_discovery'] && node['mesos']['zookeeper_ex
   end
 
   node.override['mesos']['master']['flags']['zk'] = 'zk://' + zk_nodes['servers'].sort.map { |s| "#{s}:#{zk_nodes['port']}" }.join(',') + '/' + node['mesos']['zookeeper_path']
+elsif node['mesos']['zookeeper_duedil_dns_discovery'] && node['mesos']['discovery']
+  include_recipe "mesos::discovery_zk"
 end
 
 # Mesos master configuration wrapper

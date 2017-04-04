@@ -79,5 +79,18 @@ default['mesos']['zookeeper_path']                      = 'mesos'
 # Flag to enable Zookeeper ensemble discovery via Netflix Exhibitor.
 default['mesos']['zookeeper_exhibitor_discovery']       = false
 
+# Flag to enable Zookeeper ensemble discovery via Duedil DNSDiscovery.
+default['mesos']['zookeeper_duedil_dns_discovery']         = false
+
+default['mesos']['duedil_dns_discovery']['cluster_name'] = nil, # Required for discovery to work
+default['mesos']['duedil_dns_discovery']['web_ui_service_name'] = "http",
+default['mesos']['duedil_dns_discovery']['master_service_name'] = "mesos-master",
+default['mesos']['duedil_dns_discovery']['slave_service_name'] = "mesos-slave",
+default['mesos']['duedil_dns_discovery']['zk']['domain'] = node[:domain],
+default['mesos']['duedil_dns_discovery']['zk']['cluster_name'] = nil, # Required for ZK discovery to work
+default['mesos']['duedil_dns_discovery']['zk']['service_name'] = "zookeeper-client",
+default['mesos']['duedil_dns_discovery']['zk']['path'] = "/mesos"
+
+
 # Netflix Exhibitor ZooKeeper ensemble url.
 default['mesos']['zookeeper_exhibitor_url']             = nil
