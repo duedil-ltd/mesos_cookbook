@@ -47,3 +47,6 @@ suites:
   - <<: *default
     name: 1-0-0
     attributes: {mesos: {version: '1.0.0'}}
+  - <<: *default
+    name: 0-24-2
+    attributes: {mesos: {version: '0.24.2'}}
