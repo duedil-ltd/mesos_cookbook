@@ -17,7 +17,7 @@ platforms:
     run_list: ['recipe[apt]', 'recipe[curl]']
   - name: ubuntu-12.04
     run_list: ['recipe[apt]', 'recipe[curl]']
-  - name: debian-8.6
+  - name: debian/jessie64
     run_list: ['recipe[apt]']
     attributes: {java: {jdk_version: '7'}}
   - name: centos-7.2
