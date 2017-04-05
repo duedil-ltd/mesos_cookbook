@@ -41,10 +41,14 @@ ruby_block 'mesos-slave-configuration-validation' do
   end
 end
 
-# ZooKeeper Exhibitor discovery
+# ZooKeeper discovery
 if node['mesos']['zookeeper_exhibitor_discovery'] && node['mesos']['zookeeper_exhibitor_url']
+  # Exhibitor
   zk_nodes = MesosHelper.discover_zookeepers_with_retry(node['mesos']['zookeeper_exhibitor_url'])
   node.override['mesos']['slave']['flags']['master'] = 'zk://' + zk_nodes['servers'].map { |s| "#{s}:#{zk_nodes['port']}" }.join(',') + '/' + node['mesos']['zookeeper_path']
+elsif node['mesos']['zookeeper_duedil_dns_discovery'] && node['mesos']['duedil_dns_discovery']
+  # Duedil DNSDiscovery
+  include_recipe "mesos::discovery_zk"
 end
 
 # this directory doesn't exist on newer versions of Mesos, i.e. 0.21.0+
