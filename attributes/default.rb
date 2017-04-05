@@ -38,6 +38,7 @@ default['mesos']['master']['flags']['log_dir']       = '/var/log/mesos'
 default['mesos']['master']['flags']['logging_level'] = 'INFO'
 default['mesos']['master']['flags']['cluster']       = 'MyMesosCluster'
 default['mesos']['master']['flags']['work_dir']      = '/var/lib/mesos-master'
+default['mesos']['master']['flags']['zk']            = 'zk://127.0.0.1:2181/mesos'
 
 #
 # Mesos SLAVE configuration
@@ -59,7 +60,7 @@ default['mesos']['slave']['flags']['log_dir']       = '/var/log/mesos'
 default['mesos']['slave']['flags']['logging_level'] = 'INFO'
 default['mesos']['slave']['flags']['work_dir']      = '/var/lib/mesos-slave'
 default['mesos']['slave']['flags']['isolation']     = 'posix/cpu,posix/mem'
-default['mesos']['slave']['flags']['master']        = 'localhost:5050'
+default['mesos']['slave']['flags']['master']        = 'zk://127.0.0.1:2181/mesos'
 default['mesos']['slave']['flags']['strict']        = true
 default['mesos']['slave']['flags']['recover']       = 'reconnect'
 
