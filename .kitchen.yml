@@ -30,23 +30,29 @@ platforms:
 # - name: box-cutter/ol72
 #   run_list: ['recipe[yum]']
 
+version: &version 0.24.2
+
 suites:
-  - &default
-    name: 1-1-0
+  -
+    name: mesos-master
     run_list:
       - recipe[mesos::master]
+    attributes:
+      mesos:
+        version: *version
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.33.33"}]
+  -
+    name: mesos-slave
+    run_list:
       - recipe[mesos::slave]
     attributes:
       mesos:
+        version: *version
         slave:
           flags:
-            attributes: 'attribute01:value01;attribute02:value02'
-  - <<: *default
-    name: 1-0-1
-    attributes: {mesos: {version: '1.0.1'}}
-  - <<: *default
-    name: 1-0-0
-    attributes: {mesos: {version: '1.0.0'}}
-  - <<: *default
-    name: 0-24-2
-    attributes: {mesos: {version: '0.24.2'}}
+            zk: 192.168.33.33:2181
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.33.34"}]
