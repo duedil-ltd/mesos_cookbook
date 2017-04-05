@@ -65,6 +65,33 @@ template 'mesos-slave-wrapper' do
             syslog: node['mesos']['slave']['syslog'])
 end
 
+# Set-up a cron job to clean out old slave directories
+# When the mesos slave starts up, it will discover previous slave working dirs
+# and schedule them for cleanup. Due to an intermittent bug (likely due to mounted
+# directories inside the work dir) sometimes the rmr fails, and isn't re-scheduled
+# causing a build up of old directories over time. To combat this in the short term
+# until a better solution is found, we can just remove the old directories on a cron.
+# See this thread: https://mail-archives.apache.org/mod_mbox/mesos-user/201507.mbox/browser
+template "#{node['mesos']['slave']['flags']['work_dir']}/cleanup.sh" do
+    source "slave_cleanup.sh.erb"
+    mode 0755
+
+    variables(
+        :work_dir => node['mesos']['slave']['flags']['work_dir']
+    )
+end
+
+cron "mesos_slave_cleanup" do
+    command "#{node['mesos']['slave']['flags']['work_dir']}/cleanup.sh"
+    minute "0,30"
+    hour "*"
+    day "*"
+    weekday "*"
+    month "*"
+
+    action :create
+end
+
 # Mesos master service definition
 service 'mesos-slave' do
   case node['mesos']['init']
