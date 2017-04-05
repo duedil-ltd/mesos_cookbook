@@ -89,7 +89,6 @@ default['mesos']['duedil_dns_discovery']['slave_service_name'] = "mesos-slave",
 default['mesos']['duedil_dns_discovery']['zk']['domain'] = node[:domain],
 default['mesos']['duedil_dns_discovery']['zk']['cluster_name'] = nil, # Required for ZK discovery to work
 default['mesos']['duedil_dns_discovery']['zk']['service_name'] = "zookeeper-client",
-default['mesos']['duedil_dns_discovery']['zk']['path'] = "/mesos"
 
 
 # Netflix Exhibitor ZooKeeper ensemble url.

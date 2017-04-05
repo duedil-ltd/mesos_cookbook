@@ -19,7 +19,7 @@ end
 # Create the ZK string attribute
 zk_string = "zk://"
 zk_string << hostnames.sort.join(",")
-zk_string << "/" + node[:mesos][:duedil_dns_discovery][:zk][:path].gsub(/^\//, "")
+zk_string << "/" + node['mesos']['zookeeper_path']
 
 # Set the relevant attributes
 node.override['mesos']['master']['flags']['zk'] = zk_string
