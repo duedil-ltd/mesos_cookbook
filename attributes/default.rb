@@ -39,6 +39,8 @@ default['mesos']['master']['flags']['logging_level'] = 'INFO'
 default['mesos']['master']['flags']['cluster']       = 'MyMesosCluster'
 default['mesos']['master']['flags']['work_dir']      = '/var/lib/mesos-master'
 default['mesos']['master']['flags']['zk']            = 'zk://127.0.0.1:2181/mesos'
+default['mesos']['master']['flags']['quorum']        = 1
+default['mesos']['master']['flags']['ip']            = node[:ip]
 
 #
 # Mesos SLAVE configuration
@@ -63,6 +65,7 @@ default['mesos']['slave']['flags']['isolation']     = 'posix/cpu,posix/mem'
 default['mesos']['slave']['flags']['master']        = 'zk://127.0.0.1:2181/mesos'
 default['mesos']['slave']['flags']['strict']        = true
 default['mesos']['slave']['flags']['recover']       = 'reconnect'
+default['mesos']['slave']['flags']['ip']            = node[:ip]
 
 # Workaround for setting default cgroups hierarchy root
 default['mesos']['slave']['flags']['cgroups_hierarchy'] = if node['mesos']['init'] == 'systemd'

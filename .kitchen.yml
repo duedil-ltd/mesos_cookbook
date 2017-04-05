@@ -36,13 +36,17 @@ suites:
   -
     name: mesos-master
     run_list:
+      - recipe[zookeeper::default]
       - recipe[mesos::master]
     attributes:
       mesos:
         version: *version
+        master:
+          flags:
+            ip: &ip 192.168.33.33
     driver:
       network:
-        - ["private_network", {ip: "192.168.33.33"}]
+        - ["private_network", {ip: *ip}]
   -
     name: mesos-slave
     run_list:
@@ -52,7 +56,8 @@ suites:
         version: *version
         slave:
           flags:
-            zk: 192.168.33.33:2181
+            ip: &ip 192.168.33.34
+            master: zk://192.168.33.33:2181/mesos
     driver:
       network:
-        - ["private_network", {ip: "192.168.33.34"}]
+        - ["private_network", {ip: *ip}]
