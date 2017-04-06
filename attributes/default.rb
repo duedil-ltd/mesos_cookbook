@@ -34,10 +34,10 @@ default['mesos']['master']['syslog']                = true
 # Mesos master command line flags.
 # http://mesos.apache.org/documentation/latest/configuration/
 default['mesos']['master']['flags']['port']          = 5050
-default['mesos']['master']['flags']['log_dir']       = '/var/log/mesos'
+default['mesos']['master']['flags']['log_dir']       = '/var/log/mesos-' + node['mesos']['version'].gsub(/\./, '-')
 default['mesos']['master']['flags']['logging_level'] = 'INFO'
 default['mesos']['master']['flags']['cluster']       = 'MyMesosCluster'
-default['mesos']['master']['flags']['work_dir']      = '/var/lib/mesos-master'
+default['mesos']['master']['flags']['work_dir']      = '/var/lib/mesos-master-' + node['mesos']['version'].gsub(/\./, '-')
 default['mesos']['master']['flags']['zk']            = 'zk://127.0.0.1:2181/mesos'
 default['mesos']['master']['flags']['quorum']        = 1
 default['mesos']['master']['flags']['ip']            = node[:ip]
@@ -58,9 +58,9 @@ default['mesos']['slave']['syslog']                 = true
 # Mesos slave command line flags
 # http://mesos.apache.org/documentation/latest/configuration/
 default['mesos']['slave']['flags']['port']          = 5051
-default['mesos']['slave']['flags']['log_dir']       = '/var/log/mesos'
+default['mesos']['slave']['flags']['log_dir']       = '/var/log/mesos-' + node['mesos']['version'].gsub(/\./, '-')
 default['mesos']['slave']['flags']['logging_level'] = 'INFO'
-default['mesos']['slave']['flags']['work_dir']      = '/var/lib/mesos-slave'
+default['mesos']['slave']['flags']['work_dir']      = '/var/lib/mesos-slave-' + node['mesos']['version'].gsub(/\./, '-')
 default['mesos']['slave']['flags']['isolation']     = 'posix/cpu,posix/mem'
 default['mesos']['slave']['flags']['master']        = 'zk://127.0.0.1:2181/mesos'
 default['mesos']['slave']['flags']['strict']        = true
