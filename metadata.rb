@@ -1,4 +1,4 @@
-name             'mesos'
+name             'mesos_v2'
 maintainer       'Ray Rodriguez'
 maintainer_email 'rayrod2030@gmail.com'
 license          'Apache 2.0'
