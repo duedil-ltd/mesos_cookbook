@@ -30,7 +30,7 @@ platforms:
 # - name: box-cutter/ol72
 #   run_list: ['recipe[yum]']
 
-version: &version 0.24.2
+version: &version 1.1.0
 
 suites:
   -
