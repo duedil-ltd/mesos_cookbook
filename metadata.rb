@@ -12,6 +12,6 @@ issues_url       'https://github.com/mdsol/mesos_cookbook/issues'
   supports os
 end
 
-%w(java apt yum).each do |cookbook|
+%w(java apt yum dnsdiscovery).each do |cookbook|
   depends cookbook
 end

@@ -34,10 +34,13 @@ default['mesos']['master']['syslog']                = true
 # Mesos master command line flags.
 # http://mesos.apache.org/documentation/latest/configuration/
 default['mesos']['master']['flags']['port']          = 5050
-default['mesos']['master']['flags']['log_dir']       = '/var/log/mesos'
+default['mesos']['master']['flags']['log_dir']       = '/var/log/mesos-' + node['mesos']['version'].gsub(/\./, '-')
 default['mesos']['master']['flags']['logging_level'] = 'INFO'
 default['mesos']['master']['flags']['cluster']       = 'MyMesosCluster'
-default['mesos']['master']['flags']['work_dir']      = '/tmp/mesos'
+default['mesos']['master']['flags']['work_dir']      = '/var/lib/mesos-master-' + node['mesos']['version'].gsub(/\./, '-')
+default['mesos']['master']['flags']['zk']            = 'zk://127.0.0.1:2181/mesos'
+default['mesos']['master']['flags']['quorum']        = 1
+default['mesos']['master']['flags']['ip']            = node[:ip]
 
 #
 # Mesos SLAVE configuration
@@ -55,13 +58,14 @@ default['mesos']['slave']['syslog']                 = true
 # Mesos slave command line flags
 # http://mesos.apache.org/documentation/latest/configuration/
 default['mesos']['slave']['flags']['port']          = 5051
-default['mesos']['slave']['flags']['log_dir']       = '/var/log/mesos'
+default['mesos']['slave']['flags']['log_dir']       = '/var/log/mesos-' + node['mesos']['version'].gsub(/\./, '-')
 default['mesos']['slave']['flags']['logging_level'] = 'INFO'
-default['mesos']['slave']['flags']['work_dir']      = '/tmp/mesos'
+default['mesos']['slave']['flags']['work_dir']      = '/var/lib/mesos-slave-' + node['mesos']['version'].gsub(/\./, '-')
 default['mesos']['slave']['flags']['isolation']     = 'posix/cpu,posix/mem'
-default['mesos']['slave']['flags']['master']        = 'localhost:5050'
+default['mesos']['slave']['flags']['master']        = 'zk://127.0.0.1:2181/mesos'
 default['mesos']['slave']['flags']['strict']        = true
 default['mesos']['slave']['flags']['recover']       = 'reconnect'
+default['mesos']['slave']['flags']['ip']            = node[:ip]
 
 # Workaround for setting default cgroups hierarchy root
 default['mesos']['slave']['flags']['cgroups_hierarchy'] = if node['mesos']['init'] == 'systemd'
@@ -78,6 +82,18 @@ default['mesos']['zookeeper_path']                      = 'mesos'
 
 # Flag to enable Zookeeper ensemble discovery via Netflix Exhibitor.
 default['mesos']['zookeeper_exhibitor_discovery']       = false
+
+# Flag to enable Zookeeper ensemble discovery via Duedil DNSDiscovery.
+default['mesos']['zookeeper_duedil_dns_discovery']         = false
+
+default['mesos']['duedil_dns_discovery']['cluster_name'] = nil, # Required for discovery to work
+default['mesos']['duedil_dns_discovery']['web_ui_service_name'] = "http",
+default['mesos']['duedil_dns_discovery']['master_service_name'] = "mesos-master",
+default['mesos']['duedil_dns_discovery']['slave_service_name'] = "mesos-slave",
+default['mesos']['duedil_dns_discovery']['zk']['domain'] = node[:domain],
+default['mesos']['duedil_dns_discovery']['zk']['cluster_name'] = nil, # Required for ZK discovery to work
+default['mesos']['duedil_dns_discovery']['zk']['service_name'] = "zookeeper-client",
+
 
 # Netflix Exhibitor ZooKeeper ensemble url.
 default['mesos']['zookeeper_exhibitor_url']             = nil

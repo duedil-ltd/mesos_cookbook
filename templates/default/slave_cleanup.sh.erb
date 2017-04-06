@@ -1,0 +1,4 @@
+# Managed by Chef!
+# See slave.rb recipe in mesos cookbook for more information about this script
+
+cd <%= @work_dir %> && ls slaves/ | head -n-1 | xargs -t -I{} rm -r slaves/{}

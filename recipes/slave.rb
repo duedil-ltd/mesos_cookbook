@@ -41,10 +41,14 @@ ruby_block 'mesos-slave-configuration-validation' do
   end
 end
 
-# ZooKeeper Exhibitor discovery
+# ZooKeeper discovery
 if node['mesos']['zookeeper_exhibitor_discovery'] && node['mesos']['zookeeper_exhibitor_url']
+  # Exhibitor
   zk_nodes = MesosHelper.discover_zookeepers_with_retry(node['mesos']['zookeeper_exhibitor_url'])
   node.override['mesos']['slave']['flags']['master'] = 'zk://' + zk_nodes['servers'].map { |s| "#{s}:#{zk_nodes['port']}" }.join(',') + '/' + node['mesos']['zookeeper_path']
+elsif node['mesos']['zookeeper_duedil_dns_discovery'] && node['mesos']['duedil_dns_discovery']
+  # Duedil DNSDiscovery
+  include_recipe "mesos::discovery_zk"
 end
 
 # this directory doesn't exist on newer versions of Mesos, i.e. 0.21.0+
@@ -63,6 +67,33 @@ template 'mesos-slave-wrapper' do
             bin:    node['mesos']['slave']['bin'],
             flags:  node['mesos']['slave']['flags'],
             syslog: node['mesos']['slave']['syslog'])
+end
+
+# Set-up a cron job to clean out old slave directories
+# When the mesos slave starts up, it will discover previous slave working dirs
+# and schedule them for cleanup. Due to an intermittent bug (likely due to mounted
+# directories inside the work dir) sometimes the rmr fails, and isn't re-scheduled
+# causing a build up of old directories over time. To combat this in the short term
+# until a better solution is found, we can just remove the old directories on a cron.
+# See this thread: https://mail-archives.apache.org/mod_mbox/mesos-user/201507.mbox/browser
+template "#{node['mesos']['slave']['flags']['work_dir']}/cleanup.sh" do
+    source "slave_cleanup.sh.erb"
+    mode 0755
+
+    variables(
+        :work_dir => node['mesos']['slave']['flags']['work_dir']
+    )
+end
+
+cron "mesos_slave_cleanup" do
+    command "#{node['mesos']['slave']['flags']['work_dir']}/cleanup.sh"
+    minute "0,30"
+    hour "*"
+    day "*"
+    weekday "*"
+    month "*"
+
+    action :create
 end
 
 # Mesos master service definition
