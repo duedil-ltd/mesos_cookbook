@@ -21,6 +21,8 @@ class Chef::Recipe
   include MesosHelper
 end
 
+directory node['mesos']['slave']['flags']['work_dir']
+
 include_recipe 'mesos_v2::install'
 
 # Mesos configuration validation
