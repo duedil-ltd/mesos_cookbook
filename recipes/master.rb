@@ -21,7 +21,7 @@ class Chef::Recipe
   include MesosHelper
 end
 
-include_recipe 'mesos::install'
+include_recipe 'mesos_v2::install'
 
 # Mesos configuration validation
 ruby_block 'mesos-master-configuration-validation' do
@@ -53,7 +53,7 @@ if node['mesos']['zookeeper_exhibitor_discovery'] && node['mesos']['zookeeper_ex
   node.override['mesos']['master']['flags']['zk'] = 'zk://' + zk_nodes['servers'].sort.map { |s| "#{s}:#{zk_nodes['port']}" }.join(',') + '/' + node['mesos']['zookeeper_path']
 elsif node['mesos']['zookeeper_duedil_dns_discovery'] && node['mesos']['duedil_dns_discovery']
   # Duedil DNSDiscovery
-  include_recipe "mesos::discovery_zk"
+  include_recipe "mesos_v2::discovery_zk"
 end
 
 # Mesos master configuration wrapper
