@@ -20,6 +20,9 @@ sudo add-apt-repository \
    stable"
 sudo apt-get update
 sudo apt-get install -y docker-ce
+sed -i 's_fd://_fd:// --insecure-registry registry.docker.duedil.net_' /lib/systemd/system/docker.service
+sudo systemctl daemon-reload
+sudo systemctl restart docker.service
 SCRIPT
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
