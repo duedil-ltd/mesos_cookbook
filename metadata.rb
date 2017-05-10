@@ -1,4 +1,4 @@
-name             'mesos_v2'
+name             'mesos_pkg'
 maintainer       'DueDil Infrastructure team'
 maintainer_email 'infra@duedil.com'
 license          'Apache 2.0'

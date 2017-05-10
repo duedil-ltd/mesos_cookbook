@@ -23,7 +23,7 @@ include_recipe 'java'
 # Install default repos
 #
 
-include_recipe 'mesos_v2::repo' if node['mesos']['repo']
+include_recipe 'mesos_pkg::repo' if node['mesos']['repo']
 
 #
 # Install package
@@ -124,7 +124,7 @@ service 'mesos-master-default' do
     provider Chef::Provider::Service::Upstart
   end
   action [:stop, :disable]
-  not_if { node['recipes'].include?('mesos_v2::master') }
+  not_if { node['recipes'].include?('mesos_pkg::master') }
 end
 
 service 'mesos-slave-default' do
@@ -138,5 +138,5 @@ service 'mesos-slave-default' do
     provider Chef::Provider::Service::Upstart
   end
   action [:stop, :disable]
-  not_if { node['recipes'].include?('mesos_v2::slave') }
+  not_if { node['recipes'].include?('mesos_pkg::slave') }
 end

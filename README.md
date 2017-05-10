@@ -61,7 +61,7 @@ https://github.com/apache/mesos/blob/master/docs/configuration.md
 ## Recipes
 
 ### default
-The default mesos recipe will run mesos_v2::install.
+The default mesos recipe will run mesos_pkg::install.
 
 ### install
 The install recipe installs the specified version of the mesosphere mesos
@@ -70,14 +70,14 @@ mesos-master and mesos-slave init files so that they don't automatically
 start on server restart.
 
 ### master
-The master recipe runs mesos_v2::install as well as creating several
+The master recipe runs mesos_pkg::install as well as creating several
 mesos-master configuration files that are used at startup.  This recipe also
 uses the zookeeper attributes and/or exhibitor attributes to configure the
 mesos-master using zookeeper.  Lastly it sets the mesos-master init config to
 'start' so that mesos-master is started on server restart.
 
 ### slave
-The slave recipe runs mesos_v2::install as well as creating several
+The slave recipe runs mesos_pkg::install as well as creating several
 mesos-slave configuration files that are used at startup.  This recipe also
 uses the zookeeper attributes and/or exhibitor attributes to configure the
 mesos-slave using zookeeper.  Lastly it sets the mesos-slave init config to
@@ -121,7 +121,7 @@ override_attributes:
         cluster: 'mesos-sandbox'
         zk: 'zk://127.0.0.1:2181/mesos'
 run_list:
-  recipe[mesos_v2::master]
+  recipe[mesos_pkg::master]
 ```
 
 Here is a sample role for creating a Mesos slave node with a seperate ZooKeeper
@@ -140,7 +140,7 @@ override_attributes:
       flags:
         master: 'zk://127.0.0.1:2181/mesos'
 run_list:
-  recipe[mesos_v2::slave]
+  recipe[mesos_pkg::slave]
 ```
 
 Development

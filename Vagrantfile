@@ -82,8 +82,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Provide run list
     chef.run_list = [
         'recipe[zookeeper::default]',
-        'recipe[mesos_v2::master]',
-        'recipe[mesos_v2::slave]',
+        'recipe[mesos_pkg::master]',
+        'recipe[mesos_pkg::slave]',
     ]
 
   end

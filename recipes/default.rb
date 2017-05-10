@@ -18,4 +18,4 @@
 #
 
 # install mesos package
-include_recipe 'mesos_v2::install'
+include_recipe 'mesos_pkg::install'

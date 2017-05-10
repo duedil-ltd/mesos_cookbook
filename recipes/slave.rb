@@ -23,7 +23,7 @@ end
 
 directory node['mesos']['slave']['flags']['work_dir']
 
-include_recipe 'mesos_v2::install'
+include_recipe 'mesos_pkg::install'
 
 # Mesos configuration validation
 ruby_block 'mesos-slave-configuration-validation' do
@@ -50,7 +50,7 @@ if node['mesos']['zookeeper_exhibitor_discovery'] && node['mesos']['zookeeper_ex
   node.override['mesos']['slave']['flags']['master'] = 'zk://' + zk_nodes['servers'].map { |s| "#{s}:#{zk_nodes['port']}" }.join(',') + '/' + node['mesos']['zookeeper_path']
 elsif node['mesos']['zookeeper_duedil_dns_discovery'] && node['mesos']['duedil_dns_discovery']
   # Duedil DNSDiscovery
-  include_recipe "mesos_v2::discovery_zk"
+  include_recipe "mesos_pkg::discovery_zk"
 end
 
 # this directory doesn't exist on newer versions of Mesos, i.e. 0.21.0+
