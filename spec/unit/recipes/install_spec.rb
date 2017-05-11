@@ -5,7 +5,7 @@
 
 require 'spec_helper'
 
-describe 'mesos::install' do
+describe 'mesos_pkg::install' do
   context 'When all attributes are default, on CentOS 7' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.1.1503')
@@ -14,8 +14,8 @@ describe 'mesos::install' do
     it 'Includes recipe Java' do
       expect(chef_run).to include_recipe('java')
     end
-    it 'Includes recipe mesos::repo' do
-      expect(chef_run).to include_recipe('mesos::repo')
+    it 'Includes recipe mesos_pkg::repo' do
+      expect(chef_run).to include_recipe('mesos_pkg::repo')
     end
     it 'Installs util packages' do
       expect(chef_run).to install_yum_package('unzip')

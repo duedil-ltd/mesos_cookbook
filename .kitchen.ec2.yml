@@ -90,8 +90,8 @@ suites:
   - &default
     name: 1-1-0
     run_list:
-      - recipe[mesos::master]
-      - recipe[mesos::slave]
+      - recipe[mesos_pkg::master]
+      - recipe[mesos_pkg::slave]
     attributes:
       mesos:
         slave:

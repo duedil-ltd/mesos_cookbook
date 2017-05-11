@@ -5,14 +5,14 @@
 
 require 'spec_helper'
 
-describe 'mesos::slave' do
+describe 'mesos_pkg::slave' do
   context 'When all attributes are default, on CentOS 7' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.1.1503')
       runner.converge(described_recipe)
     end
-    it 'Includes recipe mesos::install' do
-      expect(chef_run).to include_recipe('mesos::install')
+    it 'Includes recipe mesos_pkg::install' do
+      expect(chef_run).to include_recipe('mesos_pkg::install')
     end
     it 'Creates deploy directory' do
       expect(chef_run).to create_directory('/usr/local/var/mesos/deploy/')

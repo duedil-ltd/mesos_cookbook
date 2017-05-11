@@ -37,7 +37,7 @@ suites:
     name: mesos-master
     run_list:
       - recipe[zookeeper::default]
-      - recipe[mesos::master]
+      - recipe[mesos_pkg::master]
     attributes:
       mesos:
         version: *version
@@ -50,7 +50,7 @@ suites:
   -
     name: mesos-slave
     run_list:
-      - recipe[mesos::slave]
+      - recipe[mesos_pkg::slave]
     attributes:
       mesos:
         version: *version
