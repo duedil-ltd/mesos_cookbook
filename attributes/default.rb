@@ -65,7 +65,7 @@ default['mesos']['slave']['flags']['isolation']     = 'posix/cpu,posix/mem'
 default['mesos']['slave']['flags']['master']        = 'zk://127.0.0.1:2181/mesos'
 default['mesos']['slave']['flags']['strict']        = true
 default['mesos']['slave']['flags']['recover']       = 'reconnect'
-default['mesos']['slave']['flags']['ip']            = node[:ip]
+default['mesos']['slave']['flags']['ip']            = node[:ipaddress]
 
 # Workaround for setting default cgroups hierarchy root
 default['mesos']['slave']['flags']['cgroups_hierarchy'] = if node['mesos']['init'] == 'systemd'

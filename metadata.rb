@@ -4,7 +4,7 @@ maintainer_email 'infra@duedil.com'
 license          'Apache 2.0'
 description      'Installs/Configures Apache Mesos'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '3.6.0'
+version          '3.6.1'
 source_url       'https://github.com/duedil-ltd/mesos_cookbook'
 issues_url       'https://github.com/duedil-ltd/mesos_cookbook/issues'
 
